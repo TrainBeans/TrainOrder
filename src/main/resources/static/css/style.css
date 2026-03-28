@@ -1,0 +1,462 @@
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    background: #f0f0f0;
+    color: #222;
+}
+
+a { color: #1a56a0; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Page wrapper ─────────────────────────────────────────────────────────── */
+.page-wrap {
+    max-width: 900px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+/* ── Navbar ───────────────────────────────────────────────────────────────── */
+.navbar {
+    background: #1a2a4a;
+    color: #fff;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.navbar .brand { font-size: 18px; font-weight: bold; color: #fff; }
+.navbar a { color: #aac4f0; font-size: 13px; }
+
+/* ── Card ─────────────────────────────────────────────────────────────────── */
+.card {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+h1 { font-size: 22px; margin: 0 0 16px; }
+h2 { font-size: 18px; margin: 0 0 12px; }
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+.btn {
+    display: inline-block;
+    padding: 7px 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: none;
+}
+.btn-primary  { background: #1a56a0; color: #fff; }
+.btn-secondary{ background: #6c757d; color: #fff; }
+.btn-success  { background: #28a745; color: #fff; }
+.btn-warning  { background: #c8a84b; color: #0f1e3a; }
+.btn-danger   { background: #dc3545; color: #fff; }
+.btn-sm       { padding: 4px 10px; font-size: 12px; }
+.btn:hover    { opacity: 0.88; }
+
+/* ── Status badges ────────────────────────────────────────────────────────── */
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+.badge-open     { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.badge-complete { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+
+/* ── Dispatch header (root UI) ────────────────────────────────────────────── */
+.dispatch-header {
+    background: linear-gradient(135deg, #0f1e3a 0%, #1a2a4a 60%, #22376a 100%);
+    color: #fff;
+    padding: 28px 32px;
+    border-bottom: 4px solid #c8a84b;  /* railroad gold accent */
+}
+.dispatch-header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.dispatch-org {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #c8a84b;
+    margin-bottom: 4px;
+}
+.dispatch-title {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+}
+.btn-new-order {
+    background: #c8a84b;
+    color: #0f1e3a;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 10px 22px;
+    border-radius: 3px;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+.btn-new-order:hover { background: #e0c06a; opacity: 1; text-decoration: none; }
+
+/* ── Stats bar ────────────────────────────────────────────────────────────── */
+.stats-bar {
+    display: flex;
+    gap: 16px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+.stat-box {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: 3px solid #1a2a4a;
+    border-radius: 4px;
+    padding: 14px 20px;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.stat-number {
+    font-size: 26px;
+    font-weight: bold;
+    color: #1a2a4a;
+    line-height: 1.1;
+}
+.stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #666;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+.empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.empty-icon { font-size: 48px; margin-bottom: 16px; }
+.empty-state h2 { margin: 0 0 8px; font-size: 20px; color: #1a2a4a; }
+.empty-state p  { color: #666; margin: 0 0 24px; }
+.btn-lg { padding: 12px 28px; font-size: 15px; }
+
+/* ── Card toolbar ─────────────────────────────────────────────────────────── */
+.card-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.card-heading { margin: 0; font-size: 16px; color: #1a2a4a; text-transform: uppercase;
+                letter-spacing: 0.06em; }
+
+/* ── Table truncation ─────────────────────────────────────────────────────── */
+.td-truncate {
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Table ────────────────────────────────────────────────────────────────── */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.data-table th {
+    background: #1a2a4a;
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+    white-space: nowrap;
+}
+.data-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 7px 10px;
+    vertical-align: middle;
+}
+.data-table tr:hover td { background: #f7f7f7; }
+.data-table .actions { white-space: nowrap; }
+.data-table .actions form { display: inline; }
+
+/* ── Form ─────────────────────────────────────────────────────────────────── */
+.form19-entry {
+    display: grid;
+    gap: 12px;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.form-row label {
+    font-weight: bold;
+    white-space: nowrap;
+    min-width: 160px;
+    font-size: 13px;
+}
+
+.form-row input[type="text"],
+.form-row input[type="date"] {
+    flex: 1;
+    min-width: 180px;
+    border: none;
+    border-bottom: 2px solid #333;
+    padding: 3px 4px;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+}
+
+.form-row input:focus {
+    border-bottom-color: #1a56a0;
+    background: #f0f5ff;
+}
+
+.form-row .suffix {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.instructions-field {
+    width: 100%;
+    min-height: 220px;
+    border: 2px solid #333;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.instructions-field:focus {
+    border-color: #1a56a0;
+    outline: none;
+}
+
+.section-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #666;
+    margin: 16px 0 4px;
+    border-top: 2px solid #1a2a4a;
+    padding-top: 8px;
+}
+
+/* ── Form 19 Print View ───────────────────────────────────────────────────── */
+.f19-paper {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12pt;
+    background: #fff;
+    border: 3px double #000;
+    padding: 18pt 22pt;
+    width: 7.5in;
+    min-height: 10in;
+    margin: 0 auto;
+}
+
+/* ── Inputs inside the paper (entry form) ─────────────────────────────────── */
+.f19-paper input[type="text"] {
+    border: none;
+    border-bottom: 1px solid #000;
+    background: transparent;
+    outline: none;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11pt;
+    color: #222;
+    vertical-align: baseline;
+    padding: 0 2pt 1pt;
+}
+
+.f19-paper input[type="text"]:focus {
+    background: #fffff8;
+    border-bottom-color: #1a56a0;
+    border-bottom-width: 2px;
+}
+
+.f19-at-col input[type="text"] { flex: 1; }
+
+.f19-paper textarea.f19-instructions {
+    white-space: normal;
+    resize: vertical;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ── To-line add / remove buttons ─────────────────────────────────────────── */
+.to-remove-btn {
+    background: none;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    font-family: 'Courier New', monospace;
+    font-size: 9pt;
+    line-height: 1;
+    cursor: pointer;
+    padding: 1pt 4pt;
+    color: #666;
+    margin-left: 4pt;
+    flex-shrink: 0;
+}
+.to-remove-btn:hover { background: #fee; border-color: #c00; color: #c00; }
+
+.to-add-btn {
+    background: none;
+    border: none;
+    font-family: 'Courier New', monospace;
+    font-size: 9pt;
+    cursor: pointer;
+    color: #1a56a0;
+    padding: 0;
+}
+.to-add-btn:hover { text-decoration: underline; }
+
+.f19-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4pt;
+    font-size: 9pt;
+}
+.f19-header .f19-header-org .org-name { font-size: 11pt; font-weight: bold; }
+.f19-header .f19-header-right { text-align: right; }
+.f19-title             { font-size: 24pt; font-weight: bold; letter-spacing: 4pt; }
+.f19-subtitle          { font-size: 9pt; margin-top: 2pt; }
+
+.f19-order-no-row {
+    text-align: center;
+    margin: 4pt 0 2pt;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 4pt;
+}
+
+.f19-hline { border-top: 2px solid #000; margin: 8pt 0; }
+
+.f19-field-row {
+    display: flex;
+    align-items: baseline;
+    margin: 5pt 0;
+    gap: 4pt;
+}
+
+/* Two-column row: Opr. (left half) | At (right half) */
+.f19-opr-at-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8pt;
+    margin: 6pt 0 2pt;
+}
+
+.f19-opr-col,
+.f19-at-col {
+    display: flex;
+    align-items: baseline;
+    gap: 4pt;
+}
+
+.f19-at-col .f19-blank-wide { flex: 1; }
+
+/* C.T.D. row – blank + label, right-aligned to sit under the At column */
+.f19-ctd-row {
+    display: flex;
+    justify-content: flex-end;
+    margin: 2pt 0 4pt;
+}
+
+.f19-ctd-col {
+    display: flex;
+    align-items: baseline;
+    gap: 4pt;
+    width: 50%;
+}
+
+.f19-label { white-space: nowrap; font-size: 10pt; }
+
+.f19-blank {
+    display: inline-block;
+    border-bottom: 1px solid #000;
+    min-width: 40pt;
+    padding: 0 2pt 1pt;
+    font-size: 11pt;
+}
+
+.f19-blank-wide   { min-width: 160pt; }
+.f19-blank-medium { min-width: 100pt; }
+.f19-blank-short  { min-width: 40pt; font-size: 11pt; display: inline-block;
+                    border-bottom: 1px solid #000; padding: 0 2pt 1pt; vertical-align: baseline; }
+.f19-blank-full {
+    flex: 1;
+    display: block;
+    border-bottom: 1px solid #000;
+    min-width: 0;
+    padding: 0 2pt 1pt;
+    font-size: 11pt;
+}
+
+.f19-instructions {
+    border: 1px solid #000;
+    min-height: 3.5in;
+    padding: 8pt;
+    margin: 6pt 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11pt;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.7;
+}
+
+.f19-notice {
+    font-size: 9pt;
+    text-align: center;
+    font-style: italic;
+    margin: 6pt 0;
+}
+
+.f19-recopy-notice {
+    font-size: 9pt;
+    margin: 6pt 0;
+}
+
+/* ── Print media ──────────────────────────────────────────────────────────── */
+@media print {
+    body         { background: #fff; margin: 0; }
+    .no-print    { display: none !important; }
+    .f19-paper   { border: 3px double #000; width: 100%; box-shadow: none; margin: 0; }
+    .page-wrap   { margin: 0; max-width: 100%; padding: 0; }
+}
+
+@media screen {
+    .f19-paper {
+        box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+}
+
