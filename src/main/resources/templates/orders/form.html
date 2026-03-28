@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${pageTitle} + ' – Free-moN Operations Railway'">Train Order Form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<nav class="navbar no-print">
+    <span class="brand">Free-moN Operations Railway</span>
+    <a th:href="@{/orders}">← Orders</a>
+</nav>
+
+<div class="page-wrap">
+
+    <form th:action="${formAction}" th:object="${order}" method="post">
+
+        <div class="f19-paper">
+
+            <!-- ── Header: org name left, FORM 19 + type blank right ── -->
+            <div class="f19-header">
+                <div class="f19-header-org">
+                    <div class="org-name">Free-moN Operations Railway</div>
+                </div>
+                <div class="f19-header-right">
+                    <div>
+                        <span class="f19-title">FORM 19</span>
+                        <input class="f19-blank f19-blank-short" type="text" th:field="*{formType}"/>
+                    </div>
+                    <div class="f19-subtitle">NMRA/ORS &nbsp; 7/23 &nbsp;&nbsp; PRINTED IN USA</div>
+                </div>
+            </div>
+
+            <!-- ── TRAIN ORDER No. (centred) ── -->
+            <div class="f19-order-no-row">
+                <span class="f19-label">TRAIN ORDER No.</span>
+                <input class="f19-blank f19-blank-medium" type="text" th:field="*{orderNumber}"/>
+            </div>
+
+            <div class="f19-hline"></div>
+
+            <!-- ── From … Date … ── -->
+            <div class="f19-field-row">
+                <span class="f19-label">From</span>
+                <input class="f19-blank f19-blank-wide" type="text" th:field="*{fromLocation}"/>
+                <span class="f19-label" style="margin-left:12pt;">Date</span>
+                <input class="f19-blank f19-blank-medium" type="text" th:field="*{orderDate}"/>
+            </div>
+
+            <!-- ── To lines (dynamic) ── -->
+            <div id="to-lines-container">
+                <div class="f19-field-row to-line-row" style="margin-top:6pt;">
+                    <span class="f19-label">To</span>
+                    <input class="f19-blank f19-blank-full" type="text" name="toLines"/>
+                    <button type="button" class="to-remove-btn no-print"
+                            onclick="removeToLine(this)" title="Remove this line">×</button>
+                </div>
+            </div>
+            <div class="no-print" style="text-align:right; margin:2pt 0 6pt;">
+                <button type="button" class="to-add-btn" onclick="addToLine()">+ add To line</button>
+            </div>
+
+            <!-- ── Two-column row: Opr. (left) | At (right) ── -->
+            <div class="f19-opr-at-row">
+                <div class="f19-opr-col">
+                    <input class="f19-blank f19-blank-medium" type="text" th:field="*{operatorInitials}"/>
+                    <span class="f19-label">Opr.;</span>
+                    <input class="f19-blank f19-blank-medium" type="text" th:field="*{timeIssued}"/>
+                    <span class="f19-label">M.</span>
+                </div>
+                <div class="f19-at-col">
+                    <span class="f19-label">At</span>
+                    <input class="f19-blank" type="text" th:field="*{atLocation}"/>
+                </div>
+            </div>
+
+            <!-- ── Instructions body ── -->
+            <textarea th:field="*{instructions}" class="f19-instructions"
+                      placeholder="Enter train order instructions here…"></textarea>
+
+            <!-- ── C.T.D. (below instructions, right-aligned) ── -->
+            <div class="f19-ctd-row">
+                <div class="f19-ctd-col">
+                    <input class="f19-blank f19-blank-wide" type="text" th:field="*{dispatcherInitials}"/>
+                    <span class="f19-label">C.T.D.</span>
+                </div>
+            </div>
+
+            <!-- ── Notice ── -->
+            <div class="f19-notice">
+                conductor and engineer must each have a copy of this order
+            </div>
+
+            <!-- ── Complete time __ m. / __ opr. ── -->
+            <div class="f19-field-row" style="margin-top:4pt;">
+                <span class="f19-label">complete time</span>
+                <input class="f19-blank f19-blank-medium" type="text" th:field="*{completeTime}"/>
+                <span class="f19-label">m.</span>
+                <input class="f19-blank f19-blank-wide" style="margin-left:16pt;"
+                       type="text" th:field="*{completeOperator}"/>
+                <span class="f19-label">opr.</span>
+            </div>
+
+            <!-- ── Recopy notice ── -->
+            <div class="f19-recopy-notice">
+                when this order is recopied it must be repeated to the train dispatcher immediately.
+            </div>
+
+            <!-- ── Recopied by … opr.: … date ── -->
+            <div class="f19-field-row" style="margin-top:4pt; flex-wrap:wrap; gap:8pt;">
+                <span class="f19-label">recopied by</span>
+                <input class="f19-blank f19-blank-wide" type="text" th:field="*{recopiedBy}"/>
+                <span class="f19-label">opr.:</span>
+                <input class="f19-blank f19-blank-medium" type="text" th:field="*{recopyOperator}"/>
+                <span class="f19-label">date</span>
+                <input class="f19-blank f19-blank-medium" type="text" th:field="*{recopyDate}"/>
+            </div>
+
+        </div><!-- /.f19-paper -->
+
+        <!-- ── Buttons (outside the paper) ── -->
+        <div style="margin-top:16px; display:flex; gap:10px;">
+            <button type="submit" class="btn btn-success">Save Order</button>
+            <a th:href="@{/orders}" class="btn btn-secondary">Cancel</a>
+        </div>
+
+    </form>
+
+</div><!-- /.page-wrap -->
+
+<script>
+    function addToLine() {
+        const container = document.getElementById('to-lines-container');
+        const firstRow  = container.querySelector('.to-line-row');
+        const newRow    = firstRow.cloneNode(true);
+        newRow.querySelector('input').value = '';
+        container.appendChild(newRow);
+        updateRemoveButtons();
+        newRow.querySelector('input').focus();
+    }
+
+    function removeToLine(btn) {
+        const container = document.getElementById('to-lines-container');
+        if (container.querySelectorAll('.to-line-row').length > 1) {
+            btn.closest('.to-line-row').remove();
+            updateRemoveButtons();
+        }
+    }
+
+    function updateRemoveButtons() {
+        const rows = document.querySelectorAll('#to-lines-container .to-line-row');
+        rows.forEach(function(row) {
+            row.querySelector('.to-remove-btn').style.display =
+                rows.length > 1 ? 'inline-block' : 'none';
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', updateRemoveButtons);
+</script>
+</body>
+</html>
+

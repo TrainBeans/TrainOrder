@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="'Form 19 – Order ' + ${order.orderNumber}">Form 19 Train Order</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<!-- Screen-only toolbar (hidden when printing) -->
+<div class="no-print" style="background:#1a2a4a; padding:10px 24px; display:flex; gap:12px; align-items:center;">
+    <a th:href="@{/orders}" style="color:#aac4f0; font-size:13px;">← Back to Orders</a>
+    <button onclick="window.print()"
+            style="margin-left:auto; padding:7px 18px; background:#28a745; color:#fff;
+                   border:none; border-radius:3px; cursor:pointer; font-size:13px;">
+        🖨 Print
+    </button>
+</div>
+
+<div class="page-wrap">
+
+    <div class="f19-paper">
+
+        <!-- ── Header: org name left, FORM 19 + type blank right ── -->
+        <div class="f19-header">
+            <div class="f19-header-org">
+                <div class="org-name">Free-moN Operations Railway</div>
+            </div>
+            <div class="f19-header-right">
+                <div>
+                    <span class="f19-title">FORM 19</span>
+                    <span class="f19-blank f19-blank-short" th:text="${order.formType}"></span>
+                </div>
+                <div class="f19-subtitle">NMRA/ORS &nbsp; 7/23 &nbsp;&nbsp; PRINTED IN USA</div>
+            </div>
+        </div>
+
+        <!-- ── TRAIN ORDER No. (centred) ── -->
+        <div class="f19-order-no-row">
+            <span class="f19-label">TRAIN ORDER No.</span>
+            <span class="f19-blank f19-blank-medium" th:text="${order.orderNumber}"></span>
+        </div>
+
+        <div class="f19-hline"></div>
+
+        <!-- ── From … Date … ── -->
+        <div class="f19-field-row">
+            <span class="f19-label">From</span>
+            <span class="f19-blank f19-blank-wide" th:text="${order.fromLocation}"></span>
+            <span class="f19-label" style="margin-left:12pt;">Date</span>
+            <span class="f19-blank f19-blank-medium" th:text="${order.orderDate}"></span>
+        </div>
+
+        <!-- ── To ── -->
+        <!-- ── To (one row per addressee) ── -->
+        <div th:each="line : ${toLinesList}" class="f19-field-row" style="margin-top:6pt;">
+            <span class="f19-label">To</span>
+            <span class="f19-blank f19-blank-full" th:text="${line}"></span>
+        </div>
+
+        <!-- ── Two-column row: Opr. (left) | At (right) ── -->
+        <div class="f19-opr-at-row">
+            <div class="f19-opr-col">
+                <span class="f19-blank f19-blank-medium" th:text="${order.operatorInitials}"></span>
+                <span class="f19-label">Opr.;</span>
+                <span class="f19-blank f19-blank-medium" th:text="${order.timeIssued}"></span>
+                <span class="f19-label">M.</span>
+            </div>
+            <div class="f19-at-col">
+                <span class="f19-label">At</span>
+                <span class="f19-blank f19-blank-wide" th:text="${order.atLocation}"></span>
+            </div>
+        </div>
+
+        <!-- ── Instructions body ── -->
+        <div class="f19-instructions" th:text="${order.instructions}"></div>
+
+        <!-- ── C.T.D. (below instructions, right-aligned) ── -->
+        <div class="f19-ctd-row">
+            <div class="f19-ctd-col">
+                <span class="f19-blank f19-blank-wide" th:text="${order.dispatcherInitials}"></span>
+                <span class="f19-label">C.T.D.</span>
+            </div>
+        </div>
+
+        <!-- ── Notice ── -->
+        <div class="f19-notice">
+            conductor and engineer must each have a copy of this order
+        </div>
+
+        <!-- ── Complete time __ m. / __ opr. ── -->
+        <div class="f19-field-row" style="margin-top:4pt;">
+            <span class="f19-label">complete time</span>
+            <span class="f19-blank f19-blank-medium" th:text="${order.completeTime}"></span>
+            <span class="f19-label">m.</span>
+            <span class="f19-blank f19-blank-wide"
+                  style="margin-left:16pt;" th:text="${order.completeOperator}"></span>
+            <span class="f19-label">opr.</span>
+        </div>
+
+        <!-- ── Recopy notice ── -->
+        <div class="f19-recopy-notice">
+            when this order is recopied it must be repeated to the train dispatcher immediately.
+        </div>
+
+        <!-- ── Recopied by … opr.: … date ── -->
+        <div class="f19-field-row" style="margin-top:4pt; flex-wrap:wrap; gap:8pt;">
+            <span class="f19-label">recopied by</span>
+            <span class="f19-blank f19-blank-wide" th:text="${order.recopiedBy}"></span>
+            <span class="f19-label">opr.:</span>
+            <span class="f19-blank f19-blank-medium" th:text="${order.recopyOperator}"></span>
+            <span class="f19-label">date</span>
+            <span class="f19-blank f19-blank-medium" th:text="${order.recopyDate}"></span>
+        </div>
+
+    </div><!-- /.f19-paper -->
+
+</div><!-- /.page-wrap -->
+
+</body>
+</html>
+

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Train Order Dispatch – Free-moN Operations Railway</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<!-- ── Dispatch header ──────────────────────────────────────────────────────── -->
+<header class="dispatch-header">
+    <div class="dispatch-header-inner">
+        <div class="dispatch-brand">
+            <div class="dispatch-org">Free-moN Operations Railway</div>
+            <div class="dispatch-title">Train Order Dispatch</div>
+        </div>
+        <a th:href="@{/orders/new}" class="btn-new-order">+ New Train Order</a>
+    </div>
+</header>
+
+<!-- ── Main content ─────────────────────────────────────────────────────────── -->
+<div class="page-wrap">
+
+    <!-- Stats bar (only when orders exist) -->
+    <div th:unless="${orders.isEmpty()}" class="stats-bar">
+        <div class="stat-box">
+            <span class="stat-number" th:text="${orders.size()}">0</span>
+            <span class="stat-label">Orders on File</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-number"
+                  th:text="${orders[0].orderNumber != null ? orders[0].orderNumber : '—'}">—</span>
+            <span class="stat-label">Latest Order No.</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-number"
+                  th:text="${orders[0].fromLocation != null ? orders[0].fromLocation : '—'}">—</span>
+            <span class="stat-label">Latest From</span>
+        </div>
+    </div>
+
+    <!-- ── Empty state ──────────────────────────────────────────────────────── -->
+    <div th:if="${orders.isEmpty()}" class="empty-state">
+        <div class="empty-icon">📋</div>
+        <h2>No Train Orders on File</h2>
+        <p>The order board is clear. Issue the first train order to get started.</p>
+        <a th:href="@{/orders/new}" class="btn btn-primary btn-lg">+ Issue First Train Order</a>
+    </div>
+
+    <!-- ── Orders table ─────────────────────────────────────────────────────── -->
+    <div th:unless="${orders.isEmpty()}" class="card">
+        <div class="card-toolbar">
+            <h2 class="card-heading">Order Board</h2>
+            <a th:href="@{/orders/new}" class="btn btn-primary">+ New Order</a>
+        </div>
+
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>Order No.</th>
+                <th>From</th>
+                <th>Date</th>
+                <th>To</th>
+                <th>Issued</th>
+                <th>Recorded</th>
+                <th class="actions">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="o : ${orders}">
+                <td><strong th:text="${o.orderNumber}">—</strong></td>
+                <td th:text="${o.fromLocation}">—</td>
+                <td th:text="${o.orderDate}">—</td>
+                <td class="td-truncate" th:text="${o.toLine}">—</td>
+                <td th:text="${o.timeIssued != null ? o.timeIssued + ' M.' : '—'}">—</td>
+                <td th:text="${o.createdAt != null
+                               ? #temporals.format(o.createdAt,'MM/dd/yy HH:mm')
+                               : '—'}">—</td>
+                <td class="actions">
+                    <a th:href="@{/orders/{id}/print(id=${o.id})}"
+                       class="btn btn-secondary btn-sm" title="View &amp; Print">🖨 Print</a>
+                    <form th:action="@{/orders/{id}/delete(id=${o.id})}" method="post"
+                          th:data-num="${o.orderNumber}"
+                          onsubmit="return confirm('Delete Order No. ' + this.dataset.num + '?')"
+                          style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" title="Delete">✕</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div><!-- /.page-wrap -->
+
+</body>
+</html>
+
