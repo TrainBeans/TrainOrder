@@ -2,7 +2,7 @@ name: Release – Docker Image
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
     tags: [ 'v*' ]
   workflow_dispatch:
 
@@ -39,7 +39,7 @@ jobs:
 
       - name: Compute image name
         id: image
-        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"  # GHCR requires lowercase image names
 
       - name: Extract Docker metadata
         id: meta
