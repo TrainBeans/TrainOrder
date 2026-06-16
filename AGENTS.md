@@ -4,7 +4,7 @@
 - Stack: Spring Boot `4.0.5`, Java `17`, Maven Wrapper (`.mvn/wrapper/maven-wrapper.properties` pins Maven `3.9.14`).
 - Build file: `pom.xml` (single module, artifact `org.trainbeans:TrainOrder`).
 - Main package root is `org.trainbeans.trainorder`; all new classes must stay under this root.
-- Runtime: H2 in-memory database (`trainorderdb`), Thymeleaf views, Spring MVC, Spring JDBC, Actuator.
+- Runtime: H2 file-based database (`./data/trainorderdb`), Thymeleaf views, Spring MVC, Spring JDBC, Actuator.
 
 ## Architecture and Data Flow
 ```
@@ -26,7 +26,7 @@ Browser → TrainOrderController (web)
 ## Testing and Developer Workflow
 - Baseline test command (verified, 13 tests): `./mvnw -q test`
 - Common local loop: `./mvnw spring-boot:run` → http://localhost:8080, `./mvnw test`, `./mvnw package`
-- H2 console available at `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:mem:trainorderdb`, user `sa`, no password).
+- H2 console available at `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:file:./data/trainorderdb`, user `sa`, no password).
 - Actuator health: `http://localhost:8080/actuator/health`.
 
 ## Spring Boot 4 Test Annotation Packages (differ from SB3)
@@ -45,4 +45,4 @@ Browser → TrainOrderController (web)
 ## Agent Working Agreement
 - Add new layers under `org.trainbeans.trainorder.<layer>` (web, service, data, model).
 - Keep `./mvnw -q test` green after every non-trivial change.
-- Data is lost on restart (H2 in-memory); document any change to persistence in `application.properties` and here.
+- Data persists across restarts in the local `data/` directory; document any change to persistence in `application.properties` and here.
