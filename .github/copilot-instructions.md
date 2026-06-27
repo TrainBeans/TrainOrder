@@ -13,7 +13,7 @@ Trust these instructions. Only search the codebase if the information here appea
 | Java | OpenJDK 17 (Ubuntu) |
 | Spring Boot | 4.0.5 |
 | Maven Wrapper | 3.9.14 (`.mvn/wrapper/maven-wrapper.properties`) |
-| Database | H2 in-memory (`trainorderdb`) — **data lost on restart** |
+| Database | H2 file-based (`./data/trainorderdb`) — **data persists across restarts** |
 | Templates | Thymeleaf |
 | CSS/JS | Plain CSS + vanilla JS (no build tool, no bundler) |
 | Lombok | annotation processor only — excluded from final JAR |
@@ -122,4 +122,3 @@ Test slice starters in `pom.xml`: `spring-boot-starter-jdbc-test`, `spring-boot-
 ## Form 19 Paper Layout (print.html & form.html)
 
 Both templates share the identical `f19-paper` CSS structure. In `form.html`, blank `<span>` elements are replaced by `<input type="text" th:field="*{…}">` with the same `f19-blank` CSS classes. The "To" section supports dynamic multi-row entry via vanilla JS (`addToLine` / `removeToLine`). The `no-print` CSS class hides elements from `@media print`.
-
